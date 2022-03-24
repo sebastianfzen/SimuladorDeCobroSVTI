@@ -1,0 +1,106 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Granel";
+}
+
+
+
+<div class="container-fluid">
+    <div id="div_General">
+ 
+        <div class="row">
+            <div class="col-xl-7" style="margin-top:20px; padding-left:30px; padding-right:30px;">
+                <h6>Información general de la carga</h6>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="input1">Peso(Toneladas)</label>
+                        <input type="number" min="1" class="form-control" id="tons_otro" placeholder="">
+
+                    </div>
+
+                    <div class="form-group col-md-4">
+
+                    </div>
+
+                    <div class="form-group col-md-4">
+
+                    </div>
+                </div>
+
+                <div class="form-row mt-3 " style="border:2px solid rgba(209, 209, 209, 0.3); opacity:1; border-radius: 10px 10px 10px 10px;">
+
+                    <div class="form-group col-md-4 mt-4">
+                        <div class="custom-control-lg custom-control custom-checkbox">
+                            <input class="custom-control-input" id="chk_alm" type="checkbox" />
+                            <label class="custom-control-label" for="chk_alm">
+                                Almacenaje
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="input1">Desde:</label>
+                        <input type="date" id="date_desde" class="form-control" />
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="input1">Hasta:</label>
+                        <input type="date" id="date_hasta" class="form-control" />
+                    </div>
+
+                </div>
+
+
+                <div class="form-row mt-3 " style="border:2px solid rgba(209, 209, 209, 0.3); padding:10px 10px 10px 10px; opacity:1; border-radius: 10px 10px 10px 10px;">
+
+                    <div id="div_servicios_lista">
+
+
+                    </div>
+
+                </div>
+
+                <div class="form-row mt-3" id="div_botones">
+
+
+                </div>
+
+            </div>
+
+            <div class="col-xl-1">
+
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card" id="div_card1" style="position:page; width: 20rem; margin-top:30px; border-radius:10px;box-shadow:0px 3px 6px #a5a5a5;">
+                    <div class="card-body" id="div_card_body">
+                        <h5 class="card-title" style="font-weight:600">Simulador de cobro</h5>
+                       
+
+                        <div style="background-color:#e5e5e5; width:100%" id="div_lista_servicios">
+
+                        </div>
+            
+                        <p class="card-text"></p>
+                        <div> </div>
+
+                        <div id="div_totalUSD">
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>

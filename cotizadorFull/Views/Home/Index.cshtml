@@ -1,0 +1,739 @@
+﻿@{
+    ViewBag.Title = "Cotizador";
+}
+@Styles.Render("~/Content/Estilos.css")
+<!---
+    <div class="alert alert-danger container-fluid" style="position:sticky; top:0; z-index:999;" id="alerta-vacio">
+
+    <strong>Error! </strong>Revise los campos vacios
+</div>
+    -->
+
+
+<div class="container-fluid">
+    <div id="div_General">
+        <div class="row">
+            <div class="col-xl-7" style="margin-top:20px; padding-left:30px; padding-right:30px;">
+                <h6>Información general de la carga</h6>
+                <div class="form-row">
+                    <div class="form-group col-md-2 mt-2">
+                        <label>Tamaño</label>
+                        <div class="custom-control-lg custom-control custom-checkbox ">
+                            <input class="custom-control-input" id="checkbox-large" type="checkbox" />
+                            <label class="custom-control-label" for="checkbox-large">
+                                40
+                            </label>
+                        </div>
+
+                        <br />
+
+
+                        <div class="custom-control-lg custom-control custom-checkbox">
+                            <input class="custom-control-input" id="checkbox-large2" type="checkbox" />
+                            <label class="custom-control-label" for="checkbox-large2">
+                                20
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2 mt-2">
+                        <label for="input3">Cantidad</label>
+
+                        <input type="number" min="1" class="form-control form-control-sm " id="inp_cant_40" placeholder="Cantidad de 40">
+                        <br />
+                        <input type="number" min="1" class="form-control form-control-sm" id="inp_cant_20" placeholder="Cantidad de 20">
+                    </div>
+
+                    <div class="form-group col-md-2 mt-2">
+                        <label for="input5">Peso(Toneladas)</label>
+                        <input type="number" min="1" class="form-control form-control-sm" id="inp_ton_40" placeholder="Peso de 40">
+                        <br />
+                        <input type="number" min="1" class="form-control form-control-sm" id="inp_ton_20" placeholder="Peso de 20">
+                    </div>
+                </div>
+                <div class="form-row mt-3 " style="border:2px solid rgba(209, 209, 209, 0.3); opacity:1; border-radius: 10px 10px 10px 10px;">
+
+                    <div class="form-group col-md-4 mt-4">
+                        <div class="custom-control-lg custom-control custom-checkbox">
+                            <input class="custom-control-input" id="chk_alm" type="checkbox" />
+                            <label class="custom-control-label" for="chk_alm">
+                                Almacenaje
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="input1">Desde:</label>
+                        <input type="date" id="date_desde" class="form-control form-control-sm" />
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="input1">Hasta:</label>
+                        <input type="date" id="date_hasta" class="form-control form-control-sm" />
+                    </div>
+
+                </div>
+
+                <div class="form-row mt-3 " style="border:2px solid rgba(209, 209, 209, 0.3); padding:10px 10px 10px 10px; opacity:1; border-radius: 10px 10px 10px 10px;">
+
+                    <div id="div_servicios_lista">
+
+
+                    </div>
+
+                </div>
+
+                <h6 class="mt-3">Características</h6>
+                <div class="form-row mt-3">
+
+                    <div class="form-group col-md-6 col-xs-6">
+                        <div class="custom-control-lg custom-control custom-checkbox">
+                            <input class="custom-control-input" id="chk_Sobre" type="checkbox" />
+                            <label class="custom-control-label" for="chk_Sobre">
+                                Sobredimensionada
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-6 col-xs-6">
+                        <div class="custom-control-lg custom-control custom-checkbox">
+                            <input class="custom-control-input" id="chk_IMO" type="checkbox" />
+                            <label class="custom-control-label" for="chk_IMO">
+                                IMO(Carga Peligrosa)
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-row mt-3" id="div_botones">
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-xl-1">
+
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card" id="div_card1" style="position:page; width: 20rem; margin-top:30px; border-radius:10px;box-shadow:0px 3px 6px #a5a5a5;">
+                    <div class="card-body" id="div_card_body">
+                        <h5 class="card-title" style="font-weight:600">Simulador de cobro</h5>
+                        
+
+                        <div style="background-color:#e5e5e5; width:107.5%; " id="div_lista_servicios">
+
+                        </div>
+                       
+                        <p class="card-text"> </p>
+                        <div> </div>
+
+                        <div id="div_totalUSD">
+
+                        </div>
+                        <div id="div_caract_total">
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+        <footer class="text-center mt-5">
+            &copy;SVTI - San Vicente Terminal Internacional  <strong>Beta - 2019</strong>
+        </footer>
+
+    </div>
+</div>
+
+<script>
+
+ //*****************************************************************************************************//
+//Unused
+
+ //*****************************************************************************************************//
+//Carga los servicios valga la redundancia
+function js_carga_servicios()
+{
+
+
+        $.ajax({
+
+            url: '@Url.Action("cargaServicios", "Home", new { area = "Controllers" })',
+
+            type: 'POST',
+
+            dataType: 'json',
+
+            beforeSend: function () {
+
+     },
+
+        error: function (xhr, ajaxOptions, thrownError) {
+            jError(xhr.responseText, '¡Ha ocurrido un Error!');
+            return;
+        },
+
+
+        success: function (response) {
+
+            $.each(response, function (key, value) {
+                var equis = 0;
+
+                    const fila_serv = r_html_crearFila_serv({
+                        s_cod: value.ser_codigo,
+                        s_des: value.ser_descripcion,
+                        s_vig: value.ser_ind_vigencia,
+                        s_val: value.ser_valor_max
+
+                    },equis);
+
+                $('#div_servicios_lista').append(fila_serv);
+
+                });
+
+        },
+
+            complete: function () {
+                var bot = r_html_crearBotones();
+                $('#div_botones').html(bot);
+
+        }
+    });
+    }
+
+ //*****************************************************************************************************//
+//Lista los servicios en html
+function r_html_crearFila_serv(serv,equis) {
+        var fila_html;
+        //Se usara el codigo unico identificador de cada servicio para los id de checkbox y textbox de cantidad
+        var codCheck = "chk_" + serv.s_cod;
+        var ser = +serv.s_cod;
+    var codTxt = "txt_cant_" + codCheck;
+
+        fila_html = ` <div class="form-row " style="border:2px solid rgba(209, 209, 209, 0.3);padding:10px 10px 10px 10px; opacity:1; border-radius: 10px 10px 10px 10px;" id="div_servicios_lista"> `;
+
+        fila_html += `<div class="custom-control-lg custom-control custom-checkbox" >`;
+        fila_html += `<input type="checkbox" class="custom-control-input" name="checkServ" id="${codCheck}" value="${ser}">`;
+        fila_html += `<label class="custom-control-label" for="${codCheck}"> </label>`;
+        fila_html += `</div>`;
+
+        fila_html += `<div class="form-group col-md-4" style="top:10px">`;
+        fila_html += `<label for="input1">${serv.s_des}</label>`;
+        fila_html += `</div>`;
+        fila_html += `<div class="form-group col-md-1" style="top:10px">`;
+        fila_html += `<label for="input1">Cantidad: </label>`;
+        fila_html += `</div>`;
+        fila_html += `<div class="form-group col-md-3" style="top:5px">`;
+        fila_html += `<input type="number" min="0" max="99" id="${codTxt}" name="cantidadServs" class="form-control" />`;
+        fila_html += `</div>`;
+
+
+        fila_html += `</div>`;
+        return (fila_html);
+    }
+
+ //*****************************************************************************************************//
+//Crea botones en html
+function r_html_crearBotones() {
+
+        var fila_html ='';
+        fila_html += `<div class="form-group col-md-6">`;
+        fila_html += `    <button id="btn_calculo" type="button" onclick="js_calc();" class="btn btn-primary btn-block">Calcular</button>`;
+        fila_html += ` </div>`;
+
+        fila_html += `    <div class="form-group col-md-6">`;
+        fila_html += `        <button id="btn_limpiar" type="button" onclick="js_limpiarCampos()"; class="btn btn-outline-secondary btn-block">Limpiar</button>`;
+        fila_html += `    </div>`;
+        return fila_html;
+    }
+
+ //*****************************************************************************************************//
+//Inicio calculo
+function js_calc() {
+        var todoOk = js_validaciones();
+        if (todoOk) {
+            //Si no hay errores en las validaciones, se prodcede a calcular
+            $('#div_lista_servicios').html("");
+            $('#div_totalUSD').html("");
+            //Creacion de variables
+            var ca20 = 0;
+            var ca40 = 0;
+            var to20 = 0;
+            var to40 = 0;
+            var if20 = false;
+            var if40 = false;
+            var tons_otro = 0;
+            var cant_otro = 0;
+            var date_desde = "01/01/2019";
+            var date_hasta = "01/01/2019";
+            var tons_otro = 0;
+            var tipo_carga = '';
+            var impor_expor = '';
+            var almacenaje = 0;
+            if (document.getElementById("defaultInline1").checked == true) {
+                impor_expor = 'I';
+            } else { impor_expor = 'E'; }
+
+            switch (document.getElementById("tipo_pagina").value) {
+                case 'cont': tipo_carga = 'CN';
+                    break;
+                default: tipo_carga = 'OT';
+                    break;
+            }
+
+            try {
+
+                if ($('#inp_cant_20').length > 0 && $('#inp_ton_20').length > 0 && document.getElementById("checkbox-large2").checked == true) {
+                    ca20 = 0 + +document.getElementById("inp_cant_20").value;
+                    to20 = 0 + +document.getElementById("inp_ton_20").value;
+                    if20 = true;
+
+                }
+                if ($('#inp_cant_40').length > 0 && $('#inp_ton_40').length > 0 && document.getElementById("checkbox-large").checked == true) {
+                    ca40 = 0 + +document.getElementById("inp_cant_40").value;
+                    to40 = 0 + +document.getElementById("inp_ton_40").value;
+                    if40 = true;
+                }
+
+                if ($('#date_desde').length > 0 && document.getElementById("chk_alm").checked==true) {
+                    date_desde = document.getElementById("date_desde").value;
+                }
+                if ($('#date_hasta').length > 0 && document.getElementById("chk_alm").checked == true) {
+                    date_hasta = document.getElementById("date_hasta").value;
+                }
+                if ($('#tons_otro').length > 0 && document.getElementById("chk_alm").checked == true) {
+                    tons_otro = document.getElementById("tons_otro").value;
+                }
+
+
+                var al = document.getElementById("chk_alm");
+                if (al.checked == true) {
+                    almacenaje = 303;
+                }
+            } catch (e) {
+
+            }
+            //****************************************************************************
+            //Calculo exclusivo almacenaje
+            //****************************************************************************
+            try {
+                var alm = document.getElementById("chk_alm");
+                if (alm.checked == true) {
+                    var tarr = 303;
+                    console.log(ca40, to40);
+                    js_calculo_servicios(tarr, 1, 303, if20, if40, ca20, ca40, to20, to40, impor_expor, tons_otro, cant_otro, date_desde, date_hasta, tipo_carga);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+            //****************************************************************************
+            //Iteraciones por servicios seleccionados
+            //****************************************************************************
+            $.each($("input:checkbox[name=checkServ]:checked"), function (key, value) {
+
+                var x = "txt_cant_chk_" + value.value;
+                var tarr = value.value;
+                cantidad = document.getElementById(x).value;
+                almacenaje = 0;
+                js_calculo_servicios(tarr, cantidad, almacenaje, if20, if40, ca20, ca40, to20, to40, impor_expor, tons_otro, cant_otro, date_desde, date_hasta, tipo_carga);
+
+            });
+            $('#div_caract_total').html("");
+            var caracteristicas = ``;
+
+            if ($('#chk_Sobre').length > 0) {
+                if (document.getElementById("chk_Sobre").checked == true) {
+                    caracteristicas += `<img src=\"../../../../../Content/img/ok.svg\" width="15" height="15" > Sobredimensionada `;
+                }
+            }
+            if ($('#chk_IMO').length > 0) {
+                if (document.getElementById("chk_IMO").checked == true) {
+                    caracteristicas += `<img src=\"../../../../../Content/img/ok.svg\" width="15" height="15" > IMO`;
+                }
+            }
+
+
+            $('#div_caract_total').append('<br/>' + caracteristicas);
+        }
+        else { return;}
+
+    }
+
+ //*****************************************************************************************************//
+//Suma el total de servicios
+ function js_busca_input() {
+        suma = 0;
+        $.each($("input:hidden[name=idsum]"), function (key, value2) {
+            suma = +suma + +value2.value;
+
+        });
+
+        $('#div_totalUSD').html("<h4>TOTAL USD: $" + suma.toFixed(2) + "</h3>");
+
+
+    }
+
+ //*****************************************************************************************************//
+//Calculo individual por servicio/almacenaje
+function js_calculo_servicios(tarr, cantidad, almacenaje, if20, if40, ca20, ca40, to20, to40, impor_expor, tons_otro, cant_otro, desde, hasta, tipo_carga)
+{
+
+
+    var totalusd = "";
+
+    $.ajax({
+
+        url: '@Url.Action("calculoServicio", "Home", new { area = "Controllers" })',
+
+        type: 'POST',
+
+
+        dataType: 'json',
+        data: {
+            tar: tarr,
+            ca20: ca20,
+            ca40: ca40,
+            to20: to20,
+            to40: to40,
+            if20: if20,
+            if40: if40,
+            almacenaje: almacenaje,
+            impor_expor: impor_expor,
+            tons_otro: tons_otro,
+            cant_otro: cant_otro,
+            tipo_carga: tipo_carga,
+            desde: desde,
+            hasta: hasta
+
+        },
+
+        beforeSend: function () {
+     },
+
+        error: function (xhr, ajaxOptions, thrownError) {
+
+            console.log(xhr.responseText);
+            return;
+        },
+
+
+        success: function (response) {
+
+            $.each(response, function (i, value) {
+                suma = (+value.ser_valor_max) * (+cantidad);
+                
+                totalusd += ``+ value.ser_descripcion + ` ` + ` <input type="hidden" name="idsum" value="${suma}">  <br/> ` + ` <strong> Subtotal:  $ ${suma} USD </strong> <br>`;
+
+                $('#div_lista_servicios').append(totalusd);
+            });
+
+
+
+        },
+
+        complete: function () {
+            //Calcular total
+            js_busca_input();
+        }
+    });
+    }
+
+ //*****************************************************************************************************//
+//Añadir el servicio a la caja derecha
+function r_html_crearFila_Caja(serv, ton) {
+        var fila_html;
+
+        fila_html += `<h5 class="card-subtitle" style="font-weight:600">${serv.s_des}</h5>`;
+        fila_html += `<h5>Subtotal USD: ${serv.s_val}</h5>`;
+        fila_html += `<p></p>`;
+
+        return (fila_html);
+    }
+
+
+
+ //*****************************************************************************************************//
+//Validaciones generales
+function js_validaciones() {
+
+        //*****************************************************************************************************//
+        //*********************************************VALIDACIONES********************************************//
+        //*****************************************************************************************************//
+        var xx = new Date();
+        var fechaHoy = xx.getFullYear() + "-" + (+xx.getMonth() + 1) + "-" + xx.getDate();
+        var fech = new Date(fechaHoy);
+        console.log(fechaHoy);
+        var pagina = document.getElementById("tipo_pagina").value;
+        if (pagina == 'cont') {
+            var check20 = document.getElementById("checkbox-large2").checked;
+            var check40 = document.getElementById("checkbox-large").checked;
+            var campoCantidad20 = document.getElementById("inp_cant_20").value;
+            var campoCantidad40 = document.getElementById("inp_cant_40").value;
+            var ton20 = document.getElementById("inp_ton_20").value;
+            var ton40 = document.getElementById("inp_ton_40").value;
+        } else {
+
+            var ton_otros = document.getElementById("tons_otro").value;
+        }
+
+
+        var desde = document.getElementById("date_desde").valueAsDate;
+        var hasta = document.getElementById("date_hasta").valueAsDate;
+        var almacenaje = document.getElementById("chk_alm");
+
+
+
+        var todoOk = true;
+
+
+
+        //Validacion cantidad 20
+        if (check20 && pagina =='cont') {
+            if (campoCantidad20 == null || campoCantidad20 == "") {
+                document.getElementById("inp_cant_20").style.borderColor = "#CD3435";
+                todoOk = false;
+            } else if (isNaN(campoCantidad20)) {
+
+                document.getElementById("inp_cant_20").style.borderColor = "#CD3435";
+                todoOk = false;
+            }
+
+            else if (campoCantidad20 < 1) {
+
+                document.getElementById("inp_cant_20").style.borderColor = "#CD3435";
+                todoOk = false;
+            }
+            else if (campoCantidad20 > 100) {
+
+                document.getElementById("inp_cant_20").style.borderColor = "#CD3435";
+                todoOk = false;
+            } else { document.getElementById("inp_cant_20").style.borderColor = "";}
+
+            //validacion toneladas 20
+
+            if (ton20 == null || ton20 == "") {
+                document.getElementById("inp_ton_20").style.borderColor = "#CD3435";
+                todoOk = false;
+            } else if (isNaN(ton20)) {
+                todoOk = false;
+                document.getElementById("inp_ton_20").style.borderColor = "#CD3435";
+            }
+
+            else if (ton20 < 1) {
+                todoOk = false;
+                document.getElementById("inp_ton_20").style.borderColor = "#CD3435";
+            }
+            else if (ton20 > 4000) {
+                todoOk = false;
+                document.getElementById("inp_ton_20").style.borderColor = "#CD3435";
+            } else { document.getElementById("inp_ton_20").style.borderColor = "";}
+
+
+        }
+         //validacion cantidad 40
+        if (check40 && pagina == 'cont' ) {
+
+            if (campoCantidad40 == null || campoCantidad40 == "") {
+                document.getElementById("inp_cant_40").style.borderColor = "#CD3435";
+                todoOk = false;
+
+            } else if (isNaN(campoCantidad40)) {
+                todoOk = false;
+                document.getElementById("inp_cant_40").style.borderColor = "#CD3435";
+            }
+
+            else if (campoCantidad40 < 1) {
+                todoOk = false;
+                document.getElementById("inp_cant_40").style.borderColor = "#CD3435";
+            }
+            else if (campoCantidad40 > 100) {
+                todoOk = false;
+                document.getElementById("inp_cant_40").style.borderColor = "#CD3435";
+            } else {
+                document.getElementById("inp_cant_40").style.borderColor = "";
+            }
+
+            //validacion toneladas 40
+
+            if (ton40 == null || ton40 == "") {
+                todoOk = false;
+                document.getElementById("inp_ton_40").style.borderColor = "#CD3435";
+
+            } else if (isNaN(ton40)) {
+                todoOk = false;
+                document.getElementById("inp_ton_40").style.borderColor = "#CD3435";
+
+            }
+
+            else if (ton40 < 1) {
+                todoOk = false;
+                document.getElementById("inp_ton_40").style.borderColor = "#CD3435";
+            }
+            else if (ton40 > 4000) {
+                todoOk = false;
+                document.getElementById("inp_ton_40").style.borderColor = "#CD3435";
+            } else {
+                document.getElementById("inp_ton_40").style.borderColor = "";
+            }
+        }
+
+
+        //Toneladas de Granel - Break Bulk
+
+        if (pagina != 'cont') {
+            if (ton_otros == null || ton_otros == "") {
+                todoOk = false;
+                document.getElementById("tons_otro").style.borderColor = "#CD3435";
+
+            } else if (isNaN(ton_otros)) {
+                todoOk = false;
+                document.getElementById("tons_otro").style.borderColor = "#CD3435";
+
+            }
+
+            else if (ton_otros < 1) {
+                todoOk = false;
+                document.getElementById("tons_otro").style.borderColor = "#CD3435";
+            }
+            else if (ton_otros > 4000) {
+                todoOk = false;
+                document.getElementById("tons_otro").style.borderColor = "#CD3435";
+            } else {
+                document.getElementById("tons_otro").style.borderColor = "";
+            }
+        }
+
+
+
+        //validacion fecha
+
+        if (almacenaje.checked == true) {
+            if (pagina == 'break' && (ton_otros < 0 || isNaN(ton_otros))) {
+                todoOk = false;
+                document.getElementById("date_desde").style.borderColor = "#CD3435";
+                document.getElementById("date_hasta").style.borderColor = "#CD3435";
+                document.getElementById("tons_otro").style.borderColor = "#CD3435";
+            } else {
+                if (pagina!='cont') {
+                    document.getElementById("tons_otro").style.borderColor = "";
+                }
+
+
+                document.getElementById("date_desde").style.borderColor = "";
+                document.getElementById("date_hasta").style.borderColor = "";
+               
+                
+
+            }
+            if (desde > hasta) {
+                todoOk = false;
+                document.getElementById("date_desde").style.borderColor = "#CD3435";
+                document.getElementById("date_hasta").style.borderColor = "#CD3435";
+            } else if (desde == hasta) {
+                todoOk = false;
+                document.getElementById("date_desde").style.borderColor = "#CD3435";
+                document.getElementById("date_hasta").style.borderColor = "#CD3435";
+
+
+            } else if (desde == null) {
+                document.getElementById("date_desde").style.borderColor = "#CD3435";
+                todoOk = false;
+            } else if (hasta == null) {
+                todoOk = false;
+                document.getElementById("date_hasta").style.borderColor = "#CD3435";
+            } else if (desde < fech) {
+                todoOk = false;
+                document.getElementById("date_desde").style.borderColor = "#CD3435";
+                document.getElementById("date_hasta").style.borderColor = "#CD3435";
+            } else if (hasta < fech) {
+                todoOk = false;
+                document.getElementById("date_desde").style.borderColor = "#CD3435";
+                document.getElementById("date_hasta").style.borderColor = "#CD3435";
+            }
+
+            else {
+                if (todoOk) {
+                    document.getElementById("date_desde").style.borderColor = "";
+                    document.getElementById("date_hasta").style.borderColor = "";
+                }
+               
+            }
+        } else {
+            if (pagina != 'cont' && (ton_otros < 0 || isNaN(ton_otros) || ton_otros.length==null) ) {
+                todoOk = false;
+
+                document.getElementById("tons_otro").style.borderColor = "#CD3435";
+            } else if(pagina!='cont'){
+
+                document.getElementById("tons_otro").style.borderColor = "";
+
+            }
+
+        }
+
+        //"#48BE48"
+        return todoOk;
+    }
+
+ //*****************************************************************************************************//
+//Limpiar los campos
+function js_limpiarCampos() {
+        var pagina = document.getElementById("tipo_pagina").value;
+        try {
+            if (pagina!='cont') {
+
+                document.getElementById("tons_otro").value = null;
+                if (pagina=='break') {
+                    document.getElementById("chk_Sobre").checked = false;
+                }
+            }
+            if (pagina=='cont') {
+                document.getElementById("checkbox-large2").checked = false;
+                document.getElementById("checkbox-large").checked = false;
+
+                document.getElementById("inp_cant_20").value = null;
+                document.getElementById("inp_cant_40").value = null;
+                document.getElementById("inp_ton_20").value = null;
+                document.getElementById("inp_ton_40").value = null;
+                document.getElementById("chk_IMO").checked = false;
+                document.getElementById("chk_Sobre").checked = false;
+            }
+            document.getElementById("chk_alm").checked = false;
+            document.getElementById("date_desde").valueAsDate = null;
+            document.getElementById("date_hasta").valueAsDate = null;
+
+
+
+            $('#div_lista_servicios').html("");
+            $('#div_totalUSD').html("");
+            $('#div_caract_total').html("");
+            $.each($("input:checkbox[name=checkServ]:checked"), function () {
+
+
+                (this).checked = false;
+
+
+            });
+            $('input[name=cantidadServs]').each(function () {
+                this.value = null;
+            });
+
+        }
+        catch (e) {
+
+            console.log(e);
+        }
+
+
+    }
+</script>

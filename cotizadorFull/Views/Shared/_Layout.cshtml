@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/Estilos.css")
+    <title>@ViewBag.Title - Contenedor</title>
+
+</head>
+<body onload="js_carga_servicios();" >
+    <header>
+        <nav class="navbar navbar" style="background-color:#0D3857; height: 100px;">
+            <img src="~/Content/img/logo_blanco.svg" width="110" height="110" class="img-fluid" alt="Responsive image">
+        </nav>
+    </header>
+
+    <div class="container-fluid" style="margin-top:5px; padding-left:30px; padding-right:30px;">
+
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="defaultInline1" name="inlineDefaultRadiosExample" checked>
+            <label class="custom-control-label" for="defaultInline1">Importación</label>
+        </div>
+
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="defaultInline2" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline2">Exportación</label>
+        </div>
+    </div>
+
+    <nav class="nav" id="navplomo" style="background-color:#DFE2E7; height:35px; margin-top:5px; padding-left:15px; padding-right:30px;">
+        <p class="navbar-text" style="color:#0D3857; font-weight:500; margin-left:15px;">Tipo Carga:</p>
+        <a class="nav-link activo" style="color:#0D3857; height:35px" id="cont" href="#">Contenedor</a>
+        <a class="nav-link" style="color:#0D3857; height:35px" id="gran" href="#">Granel</a>
+        <a class="nav-link" style="color:#0D3857; height:35px" id="break" href="#">Break Bulk</a>
+      
+    </nav>
+    <input type="hidden" id="tipo_pagina" value="cont">
+
+    <div class="container-fluid" style="background-color:#CD3435; height:6px;">
+       
+    </div>
+
+    @RenderBody()
+
+
+
+
+   
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $("#tipo_pagina").val("cont");
+        if ($("#navplomo a").attr('id') == 'cont') {
+            $(this).addClass('activo').siblings().removeClass('activo');
+        }
+        
+        $("#navplomo a").on('click', function (e) {
+            $(this).addClass('activo').siblings().removeClass('activo');
+            var pagina = $(this).attr('id');
+         
+            switch (pagina) {
+                case 'gran': $('#div_General').load('/Home/Granel #div_General');
+                    $("#tipo_pagina").val("gran");
+                    
+                   
+                    break;
+                case 'cont': $('#div_General').load('/Home/Index #div_General');
+                    $("#tipo_pagina").val("cont");
+                   
+                    break;
+                case 'break': $('#div_General').load('/Home/Break #div_General');
+                    $("#tipo_pagina").val("break");     
+                    
+                    break;
+                default: break;
+            }
+
+            $("#div_general").ready(function () {
+                js_carga_servicios();
+            });
+
+        });
+     
+    } );
+   
+
+</script>

@@ -1,0 +1,94 @@
+﻿/*implementar letra de Google Roboto*/
+body {
+    font-family: Roboto;
+}
+
+.navplomo {
+    border-bottom: 4px solid #CD3435;
+    font-weight: bold;
+}
+
+/*para crear la linea rojo debajo del hipervinculo*/
+.nav a[class=nav-link]:hover {
+    border-bottom: 4px solid #CD3435;
+    font-weight: bold;
+}
+
+/*para crear la linea rojo debajo del hipervinculo una vez que se hace click*/
+.activo {
+    border-bottom: 4px solid #CD3435 !important;
+    font-weight: bold !important;
+}
+
+/*para solucionar problema de checkbox bootstrap */
+
+.custom-control-lg .custom-control-label::before,
+.custom-control-lg .custom-control-label::after {
+    top: 0.1rem !important;
+    left: -2rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+.custom-control-lg .custom-control-label {
+    margin-left: 0.5rem !important;
+    font-size: 1rem !important;
+}
+
+
+@media (min-height: 568px) and (min-width: 320px) {
+    .nav a {
+        font-size: smaller;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .nav p {
+        font-size: smaller;
+        padding-right: 4px;
+    }
+
+}
+
+
+@media (min-height: 667px) and (min-width: 375px) {
+    .nav a {
+        font-size: medium;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .nav p {
+        font-size: medium;
+        padding-right: 5px;
+    }
+}
+
+@media (min-height: 480px) and (min-width: 320px) {
+    .nav a {
+        font-size: smaller;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .nav p {
+        font-size: smaller;
+        padding-right: 4px;
+    }
+}
+@media (min-height: 768px) and (min-width: 1000px) {
+    .nav a {
+        font-size: medium;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .nav p {
+        font-size: medium;
+        padding-right: 4px;
+    }
+}
+
+
+
+
